@@ -5,17 +5,21 @@
 <title>Spin & Win</title>
 
 <style>
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg,#6a11cb,#ff0844);
-  color: white;
+  color: #fff;
   text-align: center;
 }
 
-h1 { margin-top: 20px; }
+h1 {
+  margin-top: 25px;
+}
 
-#wheel-box {
+#wheelBox {
   position: relative;
   width: 360px;
   height: 360px;
@@ -24,28 +28,29 @@ h1 { margin-top: 20px; }
 
 #arrow {
   position: absolute;
-  top: -18px;
+  top: -20px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 30px solid white;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 30px solid #fff;
+  z-index: 10;
 }
 
 canvas {
+  background: #fff;
   border-radius: 50%;
-  background: white;
 }
 
 button {
-  padding: 15px 40px;
+  padding: 15px 45px;
   font-size: 18px;
   border-radius: 30px;
   border: none;
   background: #ff9800;
-  color: white;
+  color: #fff;
   cursor: pointer;
 }
 </style>
@@ -56,25 +61,37 @@ button {
 <h1>ZA Spin & Win Big Prizes!</h1>
 <p>Your chance to win today 🎉</p>
 
-<div id="wheel-box">
+<div id="wheelBox">
   <div id="arrow"></div>
   <canvas id="wheel" width="360" height="360"></canvas>
 </div>
 
 <button onclick="spin()">SPIN NOW</button>
-<p style="font-size:12px">* Promotional game • No purchase required</p>
+<p style="font-size:12px;opacity:.8">
+  * Promotional game • No purchase required
+</p>
 
 <script>
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
-const prizes = ["iPhone", "R1000", "Airtime", "Gift Card"];
+const prizes = [
+  { name: "iPhone", link: "https://example.com/iphone" },
+  { name: "R1000", link: "https://example.com/cash" },
+  { name: "Airtime", link: "https://example.com/airtime" },
+  { name: "Gift Card", link: "https://example.com/gift" }
+];
+
 const colors = ["#f44336","#ffeb3b","#4caf50","#2196f3"];
 const arc = 2 * Math.PI / prizes.length;
-let rotation = 0;
 
+let rotation = 0;
+let spinning = false;
+
+// رسم العجلة
 function drawWheel() {
   ctx.clearRect(0,0,360,360);
+
   for (let i = 0; i < prizes.length; i++) {
     ctx.beginPath();
     ctx.moveTo(180,180);
@@ -85,27 +102,32 @@ function drawWheel() {
     ctx.save();
     ctx.translate(180,180);
     ctx.rotate(arc*i + arc/2);
-    ctx.fillStyle = "white";
+    ctx.fillStyle = "#fff";
     ctx.font = "bold 18px Arial";
     ctx.textAlign = "right";
-    ctx.fillText(prizes[i], 160, 10);
+    ctx.fillText(prizes[i].name, 160, 10);
     ctx.restore();
   }
 }
 
+// تشغيل أول مرة
 drawWheel();
 
+// لف العجلة
 function spin() {
-  const index = Math.floor(Math.random()*prizes.length);
-  const angle = 360 * 5 + index * (360/prizes.length);
+  if (spinning) return;
+  spinning = true;
+
+  const index = Math.floor(Math.random() * prizes.length);
+  const angle = 360 * 5 + index * (360 / prizes.length);
   rotation += angle;
 
   canvas.style.transition = "transform 4s ease-out";
   canvas.style.transform = rotate(${rotation}deg);
 
-  setTimeout(()=>{
-    window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
-  },4200);
+  setTimeout(() => {
+    window.location.href = prizes[index].link;
+  }, 4200);
 }
 </script>
 
