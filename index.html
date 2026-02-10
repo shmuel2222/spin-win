@@ -1,140 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>ZA Spin & Win</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #6a11cb, #ff0844);
-  color: white;
-  text-align: center;
-}
-
-.container {
-  padding: 40px 20px;
-}
-
-#wheel-box {
-  position: relative;
-  margin: 30px auto;
-  width: 300px;
-  height: 300px;
-}
-
-#pointer {
-  position: absolute;
-  top: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 16px solid transparent;
-  border-right: 16px solid transparent;
-  border-bottom: 30px solid white;
-  z-index: 10;
-}
-
-canvas {
-  border-radius: 50%;
-}
-button {
-  margin-top: 25px;
-  padding: 15px 45px;
-  font-size: 18px;
-  border-radius: 30px;
-  border: none;
-  background: #ff9800;
-  color: white;
-  cursor: pointer;
-}
-small {
-  display: block;
-  margin-top: 15px;
-  opacity: 0.8;
-}
-</style>
+<title>Spin & Win</title>
 </head>
 
-<body>
+<body style="margin:0; background:#7b1fa2; color:white; text-align:center; font-family:Arial;">
 
-<div class="container">
-  <h1>ZA Spin & Win Big Prizes!</h1>
-  <p>Your chance to win today 🎉</p>
+<h1>ZA Spin & Win Big Prizes!</h1>
+<p>Your chance to win today 🎉</p>
 
-  <div id="wheel-box">
-    <div id="pointer"></div>
-    <canvas id="wheel" width="300" height="300"></canvas>
-  </div>
+<canvas id="wheel" width="300" height="300"></canvas>
 
-  <button onclick="spin()">SPIN NOW</button>
-  <small>* Promotional game · No purchase required</small>
-</div>
+<br><br>
+
+<button onclick="spin()" style="
+padding:15px 40px;
+font-size:18px;
+border-radius:30px;
+border:none;
+background:#ff9800;
+color:white;
+cursor:pointer;
+">
+SPIN NOW
+</button>
+
+<p style="font-size:12px;opacity:.8">
+* Promotional game · No purchase required
+</p>
 
 <script>
-const prizes = [
-  "R1000 Cash",
-  "iPhone 15",
-  "Free Airtime",
-  "Takealot Gift Card"
-];
-
-const colors = [
-  "#ff5252",
-  "#ffca28",
-  "#66bb6a",
-  "#42a5f5"
-];
-
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
+
+const prizes = ["R1000", "iPhone", "Airtime", "Gift Card"];
+const colors = ["#e53935", "#fbc02d", "#43a047", "#1e88e5"];
 let angle = 0;
 
-function drawWheel() {
-  const arc = (2 * Math.PI) / prizes.length;
+function draw() {
+  const arc = Math.PI * 2 / prizes.length;
 
   for (let i = 0; i < prizes.length; i++) {
     ctx.beginPath();
-    ctx.moveTo(150, 150);
     ctx.fillStyle = colors[i];
-    ctx.arc(
-      150,
-      150,
-      150,
-      arc * i,
-      arc * (i + 1)
-    );
+    ctx.moveTo(150,150);
+    ctx.arc(150,150,150, arc*i, arc*(i+1));
     ctx.fill();
 
     ctx.save();
-    ctx.translate(150, 150);
-    ctx.rotate(arc * i + arc / 2);
-    ctx.textAlign = "right";
+    ctx.translate(150,150);
+    ctx.rotate(arc*i + arc/2);
     ctx.fillStyle = "white";
     ctx.font = "bold 16px Arial";
-    ctx.fillText(prizes[i], 135, 5);
+    ctx.fillText(prizes[i], 60, 5);
     ctx.restore();
   }
 }
 
-drawWheel();
+draw();
 
 function spin() {
-  const prizeIndex = Math.floor(Math.random() * prizes.length);
-  const arc = 360 / prizes.length;
-
-  angle += 360 * 5 + (360 - prizeIndex * arc - arc / 2);
-  canvas.style.transition = "transform 4s ease-out";
-  canvas.style.transform = rotate(${angle}deg);
+  const win = Math.floor(Math.random() * prizes.length);
+  angle += 360 * 4 + win * (360 / prizes.length);
+  canvas.style.transition = "transform 3s ease-out";
+  canvas.style.transform = "rotate(" + angle + "deg)";
 
   setTimeout(() => {
-    alert("🎉 You won: " + prizes[prizeIndex]);
-
-    // 🔴 غير اللينك هنا
-    window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
-  }, 4200);
+    window.location.href = "https://YOUR-LINK-HERE.com";
+  }, 3200);
 }
 </script>
 
