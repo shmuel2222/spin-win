@@ -13,9 +13,7 @@ body {
   text-align: center;
 }
 
-h1 {
-  margin-top: 25px;
-}
+h1 { margin-top: 20px; }
 
 #wheel-box {
   position: relative;
@@ -34,16 +32,15 @@ h1 {
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 30px solid white;
-  z-index: 10;
 }
 
 canvas {
-  background: white;
   border-radius: 50%;
+  background: white;
 }
 
 button {
-  padding: 15px 45px;
+  padding: 15px 40px;
   font-size: 18px;
   border-radius: 30px;
   border: none;
@@ -65,43 +62,20 @@ button {
 </div>
 
 <button onclick="spin()">SPIN NOW</button>
-<p style="font-size:12px;opacity:.8">* Promotional game • No purchase required</p>
+<p style="font-size:12px">* Promotional game • No purchase required</p>
 
 <script>
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
-const prizes = [
-  { label: "iPhone", img: "images/iphone.png", link: "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11" },
-  { label: "R1000", img: "images/cash.png", link: "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11" },
-  { label: "Airtime", img: "images/airtime.png", link: "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11" },
-  { label: "Gift Card", img: "images/gift.png", link: "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11" }
-];
-
+const prizes = ["iPhone", "R1000", "Airtime", "Gift Card"];
 const colors = ["#f44336","#ffeb3b","#4caf50","#2196f3"];
-const total = prizes.length;
-const arc = 2 * Math.PI / total;
+const arc = 2 * Math.PI / prizes.length;
 let rotation = 0;
-let spinning = false;
-
-// تحميل الصور
-const images = [];
-let loaded = 0;
-
-prizes.forEach((p,i)=>{
-  const img = new Image();
-  img.src = p.img;
-  img.onload = () => {
-    loaded++;
-    if (loaded === total) drawWheel();
-  };
-  images[i] = img;
-});
 
 function drawWheel() {
   ctx.clearRect(0,0,360,360);
-
-  for (let i=0;i<total;i++) {
+  for (let i = 0; i < prizes.length; i++) {
     ctx.beginPath();
     ctx.moveTo(180,180);
     ctx.fillStyle = colors[i];
@@ -111,25 +85,27 @@ function drawWheel() {
     ctx.save();
     ctx.translate(180,180);
     ctx.rotate(arc*i + arc/2);
-    ctx.drawImage(images[i],70,-30,60,60);
+    ctx.fillStyle = "white";
+    ctx.font = "bold 18px Arial";
+    ctx.textAlign = "right";
+    ctx.fillText(prizes[i], 160, 10);
     ctx.restore();
   }
 }
 
+drawWheel();
+
 function spin() {
-  if (spinning) return;
-  spinning = true;
+  const index = Math.floor(Math.random()*prizes.length);
+  const angle = 360 * 5 + index * (360/prizes.length);
+  rotation += angle;
 
-  const prizeIndex = Math.floor(Math.random() * total);
-  const targetAngle = (360 * 5) + (360 - prizeIndex * (360/total) - (360/total)/2);
-
-  rotation += targetAngle;
   canvas.style.transition = "transform 4s ease-out";
   canvas.style.transform = rotate(${rotation}deg);
 
-  setTimeout(() => {
-    window.location.href = prizes[prizeIndex].link;
-  }, 4200);
+  setTimeout(()=>{
+    window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
+  },4200);
 }
 </script>
 
