@@ -17,15 +17,11 @@ body {
   padding: 40px 20px;
 }
 
-h1 {
-  margin-bottom: 10px;
-}
-
 #wheel-box {
   position: relative;
   margin: 30px auto;
-  width: 320px;
-  height: 320px;
+  width: 300px;
+  height: 300px;
 }
 
 #pointer {
@@ -37,15 +33,13 @@ h1 {
   height: 0;
   border-left: 16px solid transparent;
   border-right: 16px solid transparent;
-  border-bottom: 30px solid #fff;
+  border-bottom: 30px solid white;
+  z-index: 10;
 }
 
 canvas {
-  background: #fff;
   border-radius: 50%;
-  border: 8px solid #fff;
 }
-
 button {
   margin-top: 25px;
   padding: 15px 45px;
@@ -56,12 +50,6 @@ button {
   color: white;
   cursor: pointer;
 }
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
 small {
   display: block;
   margin-top: 15px;
@@ -81,8 +69,7 @@ small {
     <canvas id="wheel" width="300" height="300"></canvas>
   </div>
 
-  <button id="spinBtn">SPIN NOW</button>
-
+  <button onclick="spin()">SPIN NOW</button>
   <small>* Promotional game · No purchase required</small>
 </div>
 
@@ -103,59 +90,52 @@ const colors = [
 
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
-const spinBtn = document.getElementById("spinBtn");
-
-let currentAngle = 0;
-let spinning = false;
+let angle = 0;
 
 function drawWheel() {
-  ctx.clearRect(0, 0, 300, 300);
   const arc = (2 * Math.PI) / prizes.length;
 
   for (let i = 0; i < prizes.length; i++) {
     ctx.beginPath();
-    ctx.fillStyle = colors[i];
     ctx.moveTo(150, 150);
-    ctx.arc(150, 150, 150, arc * i, arc * (i + 1));
+    ctx.fillStyle = colors[i];
+    ctx.arc(
+      150,
+      150,
+      150,
+      arc * i,
+      arc * (i + 1)
+    );
     ctx.fill();
 
     ctx.save();
     ctx.translate(150, 150);
     ctx.rotate(arc * i + arc / 2);
     ctx.textAlign = "right";
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = "white";
     ctx.font = "bold 16px Arial";
-    ctx.fillText(prizes[i], 135, 6);
+    ctx.fillText(prizes[i], 135, 5);
     ctx.restore();
   }
 }
 
 drawWheel();
 
-spinBtn.onclick = () => {
-  if (spinning) return;
-  spinning = true;
-  spinBtn.disabled = true;
-
+function spin() {
   const prizeIndex = Math.floor(Math.random() * prizes.length);
   const arc = 360 / prizes.length;
-  const spins = 5;
 
-  const rotateTo =
-    spins * 360 +
-    (360 - prizeIndex * arc - arc / 2);
-
-  currentAngle += rotateTo;
+  angle += 360 * 5 + (360 - prizeIndex * arc - arc / 2);
   canvas.style.transition = "transform 4s ease-out";
-  canvas.style.transform = rotate(${currentAngle}deg);
+  canvas.style.transform = rotate(${angle}deg);
 
   setTimeout(() => {
     alert("🎉 You won: " + prizes[prizeIndex]);
 
-    // 🔴 غير اللينك ده
+    // 🔴 غير اللينك هنا
     window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
   }, 4200);
-};
+}
 </script>
 
 </body>
