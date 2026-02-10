@@ -17,10 +17,6 @@ body {
   padding: 40px 20px;
 }
 
-h1 {
-  margin-bottom: 10px;
-}
-
 #wheel-container {
   position: relative;
   margin: 30px auto;
@@ -58,17 +54,6 @@ button {
   color: #fff;
   cursor: pointer;
 }
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-small {
-  display: block;
-  margin-top: 15px;
-  opacity: 0.8;
-}
 </style>
 </head>
 
@@ -82,76 +67,52 @@ small {
     <canvas id="wheel" width="300" height="300"></canvas>
   </div>
 
-  <button id="spinBtn">SPIN NOW</button>
-
+  <button onclick="spin()">SPIN NOW</button>
   <small>* Promotional game · No purchase required</small>
 </div>
 
 <script>
-const prizes = [
-  "R1000 Cash",
-  "iPhone 15",
-  "Free Airtime",
-  "Takealot Gift Card"
-];
-
-const colors = ["#ff5252", "#ffca28", "#66bb6a", "#42a5f5"];
+const prizes = ["R1000 Cash","iPhone 15","Free Airtime","Takealot Gift Card"];
+const colors = ["#ff5252","#ffca28","#66bb6a","#42a5f5"];
 
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
-const spinBtn = document.getElementById("spinBtn");
-
 let angle = 0;
-let spinning = false;
 
 function drawWheel() {
   const arc = (2 * Math.PI) / prizes.length;
-
   for (let i = 0; i < prizes.length; i++) {
     ctx.beginPath();
     ctx.fillStyle = colors[i];
-    ctx.moveTo(150, 150);
-    ctx.arc(150, 150, 150, arc * i, arc * (i + 1));
+    ctx.moveTo(150,150);
+    ctx.arc(150,150,150,arc*i,arc*(i+1));
     ctx.fill();
 
     ctx.save();
-    ctx.translate(150, 150);
-    ctx.rotate(arc * i + arc / 2);
+    ctx.translate(150,150);
+    ctx.rotate(arc*i + arc/2);
     ctx.fillStyle = "#fff";
     ctx.font = "16px Arial";
     ctx.textAlign = "right";
-    ctx.fillText(prizes[i], 140, 5);
+    ctx.fillText(prizes[i],140,5);
     ctx.restore();
   }
 }
 
 drawWheel();
 
-spinBtn.onclick = () => {
-  if (spinning) return;
-
-  spinning = true;
-  spinBtn.disabled = true;
-
-  const spins = Math.floor(Math.random() * 5) + 5;
-  const prizeIndex = Math.floor(Math.random() * prizes.length);
-  const arc = 360 / prizes.length;
-
-  const rotateTo =
-    spins * 360 +
-    (360 - prizeIndex * arc - arc / 2);
-
-  angle += rotateTo;
+function spin(){
+  const prizeIndex = Math.floor(Math.random()*prizes.length);
+  const arc = 360/prizes.length;
+  const rotate = 360*5 + (360 - prizeIndex*arc - arc/2);
+  angle += rotate;
   canvas.style.transform = rotate(${angle}deg);
 
-  setTimeout(() => {
-    const prize = prizes[prizeIndex];
-    alert("🎉 You won: " + prize);
-
-    // 🔴 غير اللينك ده
+  setTimeout(()=>{
+    alert("🎉 You won: " + prizes[prizeIndex]);
     window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
-  }, 4200);
-};
+  },4200);
+}
 </script>
 </body>
 </html>
