@@ -2,55 +2,61 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Spin & Win</title>
+<title>ZA Spin & Win</title>
 
 <style>
-* { box-sizing: border-box; }
-
 body {
   margin: 0;
+  height: 100vh;
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#6a11cb,#ff0844);
+  background: linear-gradient(135deg, #7b1fa2, #e91e63);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   color: #fff;
-  text-align: center;
 }
 
 h1 {
-  margin-top: 25px;
+  margin-bottom: 5px;
 }
 
-#wheelBox {
+p {
+  margin-top: 0;
+}
+
+#wheelContainer {
   position: relative;
-  width: 360px;
-  height: 360px;
-  margin: 30px auto;
+  width: 320px;
+  height: 320px;
+  margin: 20px 0;
 }
 
-#arrow {
+canvas {
+  width: 320px;
+  height: 320px;
+}
+
+#pointer {
   position: absolute;
-  top: -20px;
+  top: -15px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 16px solid transparent;
-  border-right: 16px solid transparent;
-  border-bottom: 30px solid #fff;
-  z-index: 10;
-}
-
-canvas {
-  border-radius: 50%;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 25px solid #fff;
 }
 
 button {
-  padding: 15px 45px;
+  background: #f9a825;
+  border: none;
+  padding: 14px 40px;
   font-size: 18px;
   border-radius: 30px;
-  border: none;
-  background: #ff9800;
-  color: #fff;
   cursor: pointer;
+  color: #000;
 }
 </style>
 </head>
@@ -60,14 +66,15 @@ button {
 <h1>ZA Spin & Win Big Prizes!</h1>
 <p>Your chance to win today 🎉</p>
 
-<div id="wheelBox">
-  <div id="arrow"></div>
-  <canvas id="wheel" width="360" height="360"></canvas>
+<div id="wheelContainer">
+  <div id="pointer"></div>
+  <canvas id="wheel" width="320" height="320"></canvas>
 </div>
 
 <button onclick="spin()">SPIN NOW</button>
-<p style="font-size:12px;opacity:.8">
-  * Promotional game • No purchase required
+
+<p style="font-size:12px;margin-top:10px">
+* Promotional game • No purchase required
 </p>
 
 <script>
@@ -75,58 +82,72 @@ const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
 const prizes = [
-  { name: "iPhone", link: "https://example.com/iphone" },
-  { name: "R1000", link: "https://example.com/cash" },
-  { name: "Airtime", link: "https://example.com/airtime" },
-  { name: "Gift Card", link: "https://example.com/gift" }
+  { text: "R1000", color: "#ff7043", link: "https://example.com/r1000" },
+  { text: "iPhone", color: "#ffee58", link: "https://example.com/iphone" },
+  { text: "Airtime", color: "#66bb6a", link: "https://example.com/airtime" },
+  { text: "Gift Card", color: "#42a5f5", link: "https://example.com/gift" }
 ];
 
-const colors = ["#f44336","#ffeb3b","#4caf50","#2196f3"];
-const arc = 2 * Math.PI / prizes.length;
-
+const center = 160;
+const radius = 150;
+const slice = (2 * Math.PI) / prizes.length;
 let rotation = 0;
 let spinning = false;
 
-// رسم العجلة
 function drawWheel() {
-  ctx.clearRect(0,0,360,360);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = 0; i < prizes.length; i++) {
+  prizes.forEach((prize, i) => {
+    const start = rotation + i * slice;
+    const end = start + slice;
+
     ctx.beginPath();
-    ctx.moveTo(180,180);
-    ctx.fillStyle = colors[i];
-    ctx.arc(180,180,180,arc*i,arc*(i+1));
+    ctx.moveTo(center, center);
+    ctx.arc(center, center, radius, start, end);
+    ctx.fillStyle = prize.color;
     ctx.fill();
+    ctx.stroke();
 
     ctx.save();
-    ctx.translate(180,180);
-    ctx.rotate(arc*i + arc/2);
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 18px Arial";
+    ctx.translate(center, center);
+    ctx.rotate(start + slice / 2);
     ctx.textAlign = "right";
-    ctx.fillText(prizes[i].name, 160, 10);
+    ctx.fillStyle = "#000";
+    ctx.font = "16px Arial";
+    ctx.fillText(prize.text, radius - 10, 5);
     ctx.restore();
-  }
+  });
 }
 
-// تشغيل أول مرة
 drawWheel();
 
-// لف العجلة
 function spin() {
   if (spinning) return;
   spinning = true;
 
-  const index = Math.floor(Math.random() * prizes.length);
-  const angle = 360 * 5 + index * (360 / prizes.length);
-  rotation += angle;
+  const spinAngle = Math.random() * 2000 + 2000;
+  const start = performance.now();
 
-  canvas.style.transition = "transform 4s ease-out";
-  canvas.style.transform = rotate(${rotation}deg);
+  function animate(time) {
+    const progress = Math.min((time - start) / 3000, 1);
+    rotation += (spinAngle * (1 - progress)) * 0.002;
+    drawWheel();
 
-  setTimeout(() => {
-    window.location.href = prizes[index].link;
-  }, 4200);
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      spinning = false;
+
+      const index =
+        Math.floor(
+          (prizes.length - (rotation % (2 * Math.PI)) / slice)
+        ) % prizes.length;
+
+      window.location.href = prizes[index].link;
+    }
+  }
+
+  requestAnimationFrame(animate);
 }
 </script>
 
