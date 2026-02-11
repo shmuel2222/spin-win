@@ -2,7 +2,13 @@ const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 const spinBtn = document.getElementById("spinBtn");
 
-const prizes = ["Gift Card", "Airtime", "Cash", "iPhone"];
+const prizes = [
+    { text: "Gift Card", img: "images/gift.png", link: "https://example.com/gift" },
+    { text: "Airtime", img: "images/airtime.png", link: "https://example.com/airtime" },
+    { text: "Cash", img: "images/cash.png", link: "https://example.com/cash" },
+    { text: "iPhone", img: "images/iphone.png", link: "https://example.com/iphone" }
+];
+
 const colors = ["#2196f3", "#4caf50", "#ff9800", "#ffeb3b"];
 
 const radius = canvas.width / 2;
@@ -11,6 +17,14 @@ const centerY = radius;
 
 let rotation = 0;
 let spinning = false;
+
+const images = [];
+
+prizes.forEach(prize => {
+    const img = new Image();
+    img.src = prize.img;
+    images.push(img);
+});
 
 function drawWheel() {
     const arcSize = (2 * Math.PI) / prizes.length;
@@ -28,15 +42,23 @@ function drawWheel() {
         ctx.save();
         ctx.translate(centerX, centerY);
         ctx.rotate(angle + arcSize / 2);
-        ctx.textAlign = "center";
+
+        // الصورة
+        ctx.drawImage(images[i], -30, -radius / 1.4, 60, 60);
+
+        // النص
         ctx.fillStyle = "black";
         ctx.font = "bold 18px Arial";
-        ctx.fillText(prizes[i], 0, -radius / 1.5);
+        ctx.textAlign = "center";
+        ctx.fillText(prizes[i].text, 0, -radius / 1.1);
+
         ctx.restore();
     }
 }
 
-drawWheel();
+window.onload = function() {
+    drawWheel();
+};
 
 spinBtn.onclick = function () {
     if (spinning) return;
@@ -56,19 +78,7 @@ spinBtn.onclick = function () {
         const segment = Math.floor((360 - actualDeg) / (360 / prizes.length)) % prizes.length;
         const winner = prizes[segment];
 
-        // تحويل حسب الجائزة
-        if (winner === "Gift Card") {
-            window.location.href = "https://example.com/gift";
-        }
-        else if (winner === "Airtime") {
-            window.location.href = "https://example.com/airtime";
-        }
-        else if (winner === "Cash") {
-            window.location.href = "https://example.com/cash";
-        }
-        else if (winner === "iPhone") {
-            window.location.href = "https://example.com/iphone";
-        }
+        window.location.href = winner.link;
 
     }, 4000);
 };
