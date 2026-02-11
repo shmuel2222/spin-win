@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>ZA Spin & Win</title>
+
 <style>
 
 body{
@@ -19,8 +20,8 @@ h1{
 
 .wheel-container{
     position:relative;
-    width:400px;
-    height:400px;
+    width:420px;
+    height:420px;
     margin:40px auto;
 }
 
@@ -28,27 +29,38 @@ h1{
     width:100%;
     height:100%;
     border-radius:50%;
-    border:10px solid white;
+    border:12px solid white;
     background:
         conic-gradient(
-            #2ecc71 0deg 90deg,
-            #3498db 90deg 180deg,
+            #3498db 0deg 90deg,
+            #2ecc71 90deg 180deg,
             #f1c40f 180deg 270deg,
             #e67e22 270deg 360deg
         );
     transition: transform 4s ease-out;
+    position:relative;
+}
+
+.label{
+    position:absolute;
+    width:50%;
+    left:50%;
+    top:50%;
+    transform-origin:left center;
+    font-weight:bold;
+    font-size:18px;
 }
 
 .pointer{
     position:absolute;
-    top:-20px;
+    top:-22px;
     left:50%;
     transform:translateX(-50%);
     width:0;
     height:0;
-    border-left:15px solid transparent;
-    border-right:15px solid transparent;
-    border-bottom:25px solid white;
+    border-left:18px solid transparent;
+    border-right:18px solid transparent;
+    border-bottom:30px solid white;
 }
 
 button{
@@ -59,6 +71,7 @@ button{
     background:#ffeb3b;
     cursor:pointer;
     margin-top:20px;
+    font-weight:bold;
 }
 
 </style>
@@ -71,7 +84,12 @@ button{
 
 <div class="wheel-container">
     <div class="pointer"></div>
-    <div id="wheel"></div>
+    <div id="wheel">
+        <div class="label" style="transform:rotate(45deg) translateX(10px);">Gift Card 🎁</div>
+        <div class="label" style="transform:rotate(135deg) translateX(10px);">Airtime 📱</div>
+        <div class="label" style="transform:rotate(225deg) translateX(10px);">iPhone 📱</div>
+        <div class="label" style="transform:rotate(315deg) translateX(10px);">Cash 💰</div>
+    </div>
 </div>
 
 <button id="spin">SPIN NOW</button>
@@ -82,6 +100,14 @@ const wheel = document.getElementById("wheel");
 const spinBtn = document.getElementById("spin");
 
 let spinning = false;
+let currentRotation = 0;
+
+const prizes = [
+    {name:"Gift Card", link:"https://google.com"},
+    {name:"Airtime", link:"https://youtube.com"},
+    {name:"iPhone", link:"https://apple.com"},
+    {name:"Cash", link:"https://paypal.com"}
+];
 
 spinBtn.addEventListener("click", function(){
 
@@ -89,12 +115,20 @@ spinBtn.addEventListener("click", function(){
 
     spinning = true;
 
-    const randomDegree = Math.floor(Math.random()*360) + 1440;
+    const extraRotation = Math.floor(Math.random()*360);
+    const totalRotation = 1440 + extraRotation;
 
-    wheel.style.transform = "rotate(" + randomDegree + "deg)";
+    currentRotation += totalRotation;
+
+    wheel.style.transform = "rotate(" + currentRotation + "deg)";
 
     setTimeout(function(){
-        window.location.href = "https://google.com";
+
+        const finalDeg = currentRotation % 360;
+        const index = Math.floor((360 - finalDeg) / 90) % 4;
+
+        window.location.href = prizes[index].link;
+
     },4000);
 
 });
