@@ -1,45 +1,48 @@
 body {
-    margin: 0;
     text-align: center;
     font-family: Arial;
-    background: linear-gradient(135deg, #8e2de2, #ff416c);
+    background: linear-gradient(135deg, #7b1fa2, #e91e63);
     color: white;
 }
 
-.wheel-wrapper {
+h1 {
+    margin-top: 20px;
+}
+
+.wheel-container {
     position: relative;
+    margin: 30px auto;
     width: 400px;
-    margin: 40px auto;
+    height: 400px;
 }
 
 canvas {
     border-radius: 50%;
-    border: 8px solid white;
+    border: 10px solid white;
 }
 
 .pointer {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 25px solid white;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 30px solid white;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-#spinBtn {
-    background: yellow;
-    border: none;
+button {
     padding: 15px 40px;
     font-size: 18px;
     border-radius: 30px;
+    border: none;
+    background: yellow;
     cursor: pointer;
-    margin-top: 20px;
+    font-weight: bold;
 }
 
 .note {
     margin-top: 15px;
-    font-size: 14px;
 }
