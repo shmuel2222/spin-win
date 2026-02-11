@@ -3,49 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <title>ZA Spin & Win</title>
+
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #6a11cb, #ff416c);
-    color: #fff;
-    text-align: center;
-  }
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg,#7b1fa2,#e91e63);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  color: #fff;
+}
 
-  h1 { margin-top: 30px; }
+h1 { margin-bottom: 5px; }
+p { margin-top: 0; }
 
-  .wheel-container {
-    position: relative;
-    width: 320px;
-    height: 320px;
-    margin: 40px auto;
-  }
+#wrapper {
+  position: relative;
+  width: 320px;
+  height: 320px;
+}
 
-  canvas {
-    border-radius: 50%;
-    background: #fff;
-  }
+#pointer {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 25px solid white;
+  z-index: 10;
+}
 
-  .pointer {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 25px solid #fff;
-  }
+canvas {
+  border-radius: 50%;
+  background: white;
+}
 
-  button {
-    background: #f5b400;
-    border: none;
-    padding: 14px 40px;
-    font-size: 18px;
-    border-radius: 30px;
-    cursor: pointer;
-  }
+button {
+  margin-top: 25px;
+  padding: 12px 35px;
+  font-size: 18px;
+  background: #ffc107;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+small {
+  margin-top: 10px;
+  opacity: .8;
+}
 </style>
 </head>
 
@@ -54,79 +66,102 @@
 <h1>ZA Spin & Win Big Prizes!</h1>
 <p>Your chance to win today 🎉</p>
 
-<div class="wheel-container">
-  <div class="pointer"></div>
+<div id="wrapper">
+  <div id="pointer"></div>
   <canvas id="wheel" width="320" height="320"></canvas>
 </div>
 
 <button onclick="spin()">SPIN NOW</button>
+<small>* Promotional game • No purchase required</small>
 
 <script>
-const prizes = [
-  { name: "iPhone", img: "images/iphone.png", link: "https://example.com/iphone" },
-  { name: "Cash", img: "images/cash.png", link: "https://example.com/cash" },
-  { name: "Airtime", img: "images/airtime.png", link: "https://example.com/airtime" },
-  { name: "Gift Card", img: "images/giftcard.png", link: "https://example.com/giftcard" }
-];
-
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
+
 const center = 160;
 const radius = 150;
+
+const prizes = [
+  { img: "images/iphone.png",  link: "https://example.com/iphone" },
+  { img: "images/cash.png",    link: "https://example.com/cash" },
+  { img: "images/giftcard.png",link: "https://example.com/giftcard" },
+  { img: "images/airtime.png", link: "https://example.com/airtime" }
+];
+
+const colors = ["#ffeb3b","#ff9800","#2196f3","#4caf50"];
+
 let angle = 0;
+let spinning = false;
 
-function drawWheel() {
-  const slice = (2 * Math.PI) / prizes.length;
+const images = [];
+let loaded = 0;
 
-  prizes.forEach((p, i) => {
-    const start = angle + i * slice;
-    const end = start + slice;
+prizes.forEach((p,i)=>{
+  const img = new Image();
+  img.src = p.img;
+  img.onload = () => {
+    loaded++;
+    if (loaded === prizes.length) draw();
+  };
+  images.push(img);
+});
+
+function draw() {
+  ctx.clearRect(0,0,320,320);
+  const slice = 2*Math.PI / prizes.length;
+
+  prizes.forEach((p,i)=>{
+    const start = angle + i*slice;
+    const end   = start + slice;
 
     ctx.beginPath();
-    ctx.moveTo(center, center);
-    ctx.arc(center, center, radius, start, end);
-    ctx.fillStyle = ["#f44336", "#ffeb3b", "#4caf50", "#2196f3"][i];
+    ctx.moveTo(center,center);
+    ctx.arc(center,center,radius,start,end);
+    ctx.fillStyle = colors[i];
     ctx.fill();
 
-    const img = new Image();
-    img.src = p.img;
-    img.onload = () => {
-      const mid = start + slice / 2;
-      ctx.save();
-      ctx.translate(
-        center + Math.cos(mid) * 90,
-        center + Math.sin(mid) * 90
-      );
-      ctx.rotate(mid + Math.PI / 2);
-      ctx.drawImage(img, -25, -25, 50, 50);
-      ctx.restore();
-    };
+    const mid = start + slice/2;
+    ctx.save();
+    ctx.translate(
+      center + Math.cos(mid)*90,
+      center + Math.sin(mid)*90
+    );
+    ctx.rotate(mid);
+    ctx.drawImage(images[i], -22, -22, 44, 44);
+    ctx.restore();
   });
 }
 
-drawWheel();
+function spin(){
+  if(spinning) return;
+  spinning = true;
 
-function spin() {
-  const spinAngle = Math.random() * 3000 + 2000;
-  let start = null;
+  const target = Math.random()*360 + 1440;
+  const start = performance.now();
+  const duration = 4000;
 
-  function animate(t) {
-    if (!start) start = t;
-    const progress = t - start;
-    angle += 0.1;
-    ctx.clearRect(0, 0, 320, 320);
-    drawWheel();
+  function animate(time){
+    const progress = Math.min((time-start)/duration,1);
+    angle = (target*progress)*Math.PI/180;
+    draw();
 
-    if (progress < spinAngle) {
+    if(progress<1){
       requestAnimationFrame(animate);
     } else {
-      const slice = (2 * Math.PI) / prizes.length;
-      const index = Math.floor(((2 * Math.PI) - angle % (2 * Math.PI)) / slice) % prizes.length;
-      window.location.href = prizes[index].link;
+      spinning=false;
+      finish();
     }
   }
-
   requestAnimationFrame(animate);
+}
+
+function finish(){
+  const slice = 360/prizes.length;
+  const deg = (360 - (angle*180/Math.PI)%360) % 360;
+  const index = Math.floor(deg/slice);
+  setTimeout(()=>{
+    window.location.href = prizes[index].link;
+  },800);
 }
 </script>
 
