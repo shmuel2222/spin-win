@@ -6,13 +6,17 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #7b1fa2, #e91e63);
+  background: linear-gradient(135deg, #7b2ff7, #f107a3);
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   color: #fff;
+}
+
+.container {
   text-align: center;
+  width: 100%;
+  max-width: 420px;
 }
 
 h1 {
@@ -23,33 +27,26 @@ h1 {
   margin-bottom: 20px;
 }
 
-.wheel-container {
-  position: relative;
-  width: 320px;
-  height: 320px;
-  margin: 20px 0;
-}
-
 .pointer {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 25px solid white;
+  margin: 0 auto -10px;
   z-index: 10;
+  position: relative;
 }
 
 .wheel {
-  width: 100%;
-  height: 100%;
+  width: 320px;
+  height: 320px;
+  margin: 0 auto 20px;
   border-radius: 50%;
   border: 10px solid white;
   position: relative;
   overflow: hidden;
+  transition: transform 4s ease-out;
 }
 
 .slice {
@@ -58,8 +55,8 @@ h1 {
   height: 50%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .slice img {
@@ -69,46 +66,28 @@ h1 {
 
 .slice span {
   font-size: 14px;
-  font-weight: bold;
   color: #000;
+  font-weight: bold;
 }
 
-.blue {
-  background: #2196f3;
-  top: 0;
-  left: 0;
-}
-
-.green {
-  background: #4caf50;
-  top: 0;
-  right: 0;
-}
-
-.orange {
-  background: #ff9800;
-  bottom: 0;
-  left: 0;
-}
-
-.yellow {
-  background: #ffeb3b;
-  bottom: 0;
-  right: 0;
-}
+/* positions */
+.blue { background: #3498db; top: 0; left: 0; }
+.green { background: #2ecc71; top: 0; right: 0; }
+.yellow { background: #f1c40f; bottom: 0; right: 0; }
+.orange { background: #e67e22; bottom: 0; left: 0; }
 
 #spinBtn {
-  background: #ffc107;
+  background: #f1c40f;
   border: none;
-  padding: 14px 30px;
-  font-size: 18px;
+  padding: 15px 40px;
   border-radius: 30px;
+  font-size: 18px;
   cursor: pointer;
-  margin-top: 10px;
+  font-weight: bold;
 }
 
 .note {
+  margin-top: 10px;
   font-size: 12px;
   opacity: 0.8;
-  margin-top: 8px;
 }
