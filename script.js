@@ -10,7 +10,6 @@ let spinning = false;
 
 function drawWheel() {
   const arc = (2 * Math.PI) / prizes.length;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < prizes.length; i++) {
     ctx.beginPath();
@@ -23,7 +22,7 @@ function drawWheel() {
     ctx.save();
     ctx.translate(200, 200);
     ctx.rotate(arc * i + arc / 2);
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = "black";
     ctx.font = "20px Arial";
     ctx.textAlign = "center";
     ctx.fillText(prizes[i], 120, 0);
@@ -37,7 +36,8 @@ spinBtn.addEventListener("click", function () {
   if (spinning) return;
 
   spinning = true;
-  const randomDeg = Math.floor(3600 + Math.random() * 360);
+
+  const randomDeg = 3600 + Math.floor(Math.random() * 360);
   angle += randomDeg;
 
   canvas.style.transition = "transform 4s ease-out";
@@ -46,7 +46,8 @@ spinBtn.addEventListener("click", function () {
   setTimeout(() => {
     spinning = false;
 
-    // 🔗 التحويل
+    // تحويل بعد اللف
     window.location.href = "https://google.com";
+
   }, 4000);
 });
