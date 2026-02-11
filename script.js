@@ -1,84 +1,62 @@
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
+
 const spinBtn = document.getElementById("spinBtn");
 
 const prizes = [
-    { text: "Gift Card", img: "images/gift.png", link: "https://example.com/gift" },
-    { text: "Airtime", img: "images/airtime.png", link: "https://example.com/airtime" },
-    { text: "Cash", img: "images/cash.png", link: "https://example.com/cash" },
-    { text: "iPhone", img: "images/iphone.png", link: "https://example.com/iphone" }
+  { text: "Gift Card", img: "images/giftcard.png" },
+  { text: "Airtime", img: "images/airtime.png" },
+  { text: "Cash", img: "images/cash.png" },
+  { text: "iPhone", img: "images/iphone.png" }
 ];
 
-const colors = ["#2196f3", "#4caf50", "#ff9800", "#ffeb3b"];
+const colors = ["#3498db", "#2ecc71", "#f1c40f", "#e67e22"];
 
-const radius = canvas.width / 2;
-const centerX = radius;
-const centerY = radius;
-
-let rotation = 0;
+let angle = 0;
 let spinning = false;
 
-const images = [];
-
-prizes.forEach(prize => {
-    const img = new Image();
-    img.src = prize.img;
-    images.push(img);
-});
-
 function drawWheel() {
-    const arcSize = (2 * Math.PI) / prizes.length;
+  const arc = Math.PI / 2;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    for (let i = 0; i < prizes.length; i++) {
-        const angle = i * arcSize;
+  for (let i = 0; i < prizes.length; i++) {
+    ctx.beginPath();
+    ctx.fillStyle = colors[i];
+    ctx.moveTo(200, 200);
+    ctx.arc(200, 200, 200, arc * i, arc * (i + 1));
+    ctx.fill();
+    ctx.closePath();
 
-        ctx.beginPath();
-        ctx.moveTo(centerX, centerY);
-        ctx.arc(centerX, centerY, radius, angle, angle + arcSize);
-        ctx.fillStyle = colors[i];
-        ctx.fill();
-        ctx.closePath();
+    const img = new Image();
+    img.src = prizes[i].img;
 
-        ctx.save();
-        ctx.translate(centerX, centerY);
-        ctx.rotate(angle + arcSize / 2);
-
-        // الصورة
-        ctx.drawImage(images[i], -30, -radius / 1.4, 60, 60);
-
-        // النص
-        ctx.fillStyle = "black";
-        ctx.font = "bold 18px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText(prizes[i].text, 0, -radius / 1.1);
-
-        ctx.restore();
-    }
+    img.onload = function () {
+      ctx.save();
+      ctx.translate(200, 200);
+      ctx.rotate(arc * i + arc / 2);
+      ctx.drawImage(img, 60, -40, 80, 80);
+      ctx.restore();
+    };
+  }
 }
 
-window.onload = function() {
-    drawWheel();
-};
+drawWheel();
 
-spinBtn.onclick = function () {
-    if (spinning) return;
+spinBtn.addEventListener("click", function () {
+  if (spinning) return;
 
-    spinning = true;
+  spinning = true;
 
-    const spinAngle = Math.floor(Math.random() * 360) + 720;
-    rotation += spinAngle;
+  const randomDeg = Math.floor(3600 + Math.random() * 360);
+  angle += randomDeg;
 
-    canvas.style.transition = "transform 4s ease-out";
-    canvas.style.transform = "rotate(" + rotation + "deg)";
+  canvas.style.transition = "transform 4s ease-out";
+  canvas.style.transform = rotate(${angle}deg);
 
-    setTimeout(() => {
-        spinning = false;
+  setTimeout(() => {
+    spinning = false;
 
-        const actualDeg = rotation % 360;
-        const segment = Math.floor((360 - actualDeg) / (360 / prizes.length)) % prizes.length;
-        const winner = prizes[segment];
-
-        window.location.href = winner.link;
-
-    }, 4000);
-};
+    // 👇 التحويل على لينك
+    window.location.href = "https://google.com";
+  }, 4000);
+});
