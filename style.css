@@ -6,12 +6,12 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #7b2ff7, #f107a3);
-  color: #fff;
+  background: linear-gradient(135deg, #7b1fa2, #e91e63);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: #fff;
   text-align: center;
 }
 
@@ -25,16 +25,9 @@ h1 {
 
 .wheel-container {
   position: relative;
-  width: 360px;
-  height: 360px;
-}
-
-canvas {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 8px solid #fff;
-  background: #fff;
+  width: 320px;
+  height: 320px;
+  margin: 20px 0;
 }
 
 .pointer {
@@ -44,32 +37,78 @@ canvas {
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-bottom: 20px solid white;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 25px solid white;
   z-index: 10;
 }
 
+.wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 10px solid white;
+  position: relative;
+  overflow: hidden;
+}
+
+.slice {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.slice img {
+  width: 40px;
+  margin-bottom: 5px;
+}
+
+.slice span {
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+}
+
+.blue {
+  background: #2196f3;
+  top: 0;
+  left: 0;
+}
+
+.green {
+  background: #4caf50;
+  top: 0;
+  right: 0;
+}
+
+.orange {
+  background: #ff9800;
+  bottom: 0;
+  left: 0;
+}
+
+.yellow {
+  background: #ffeb3b;
+  bottom: 0;
+  right: 0;
+}
+
 #spinBtn {
-  margin-top: 20px;
-  padding: 14px 40px;
-  font-size: 18px;
+  background: #ffc107;
   border: none;
+  padding: 14px 30px;
+  font-size: 18px;
   border-radius: 30px;
-  background: #f9c74f;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .note {
-  margin-top: 10px;
-  font-size: 13px;
-  opacity: 0.9;
-}
-
-/* 📱 موبايل */
-@media (max-width: 768px) {
-  .wheel-container {
-    width: 300px;
-    height: 300px;
-  }
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 8px;
 }
