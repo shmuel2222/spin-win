@@ -2,61 +2,53 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ZA Spin & Win</title>
+<title>Spin & Win</title>
 
 <style>
-body {
-  margin: 0;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #7b1fa2, #e91e63);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#7b2ff7,#f107a3);
+  font-family:Arial;
+  color:white;
 }
 
-h1 {
-  margin-bottom: 5px;
+h1{margin-bottom:5px}
+p{margin-top:0}
+
+#wrapper{
+  position:relative;
 }
 
-p {
-  margin-top: 0;
+canvas{
+  background:#fff;
+  border-radius:50%;
 }
 
-#wheelContainer {
-  position: relative;
-  width: 320px;
-  height: 320px;
-  margin: 20px 0;
+#pointer{
+  position:absolute;
+  top:-10px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+  border-left:15px solid transparent;
+  border-right:15px solid transparent;
+  border-bottom:30px solid white;
 }
 
-canvas {
-  width: 320px;
-  height: 320px;
-}
-
-#pointer {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 25px solid #fff;
-}
-
-button {
-  background: #f9a825;
-  border: none;
-  padding: 14px 40px;
-  font-size: 18px;
-  border-radius: 30px;
-  cursor: pointer;
-  color: #000;
+button{
+  margin-top:20px;
+  padding:15px 40px;
+  font-size:20px;
+  border:none;
+  border-radius:30px;
+  background:#f1c40f;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -64,91 +56,81 @@ button {
 <body>
 
 <h1>ZA Spin & Win Big Prizes!</h1>
-<p>Your chance to win today 🎉</p>
+<p>Your chance to win today</p>
 
-<div id="wheelContainer">
+<div id="wrapper">
   <div id="pointer"></div>
-  <canvas id="wheel" width="320" height="320"></canvas>
+  <canvas id="wheel" width="400" height="400"></canvas>
 </div>
 
-<button onclick="spin()">SPIN NOW</button>
-
-<p style="font-size:12px;margin-top:10px">
-* Promotional game • No purchase required
-</p>
+<button id="spinBtn">SPIN NOW</button>
+<p style="font-size:12px">* Promotional game • No purchase required</p>
 
 <script>
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 
 const prizes = [
-  { text: "R1000", color: "#ff7043", link: "https://example.com/r1000" },
-  { text: "iPhone", color: "#ffee58", link: "https://example.com/iphone" },
-  { text: "Airtime", color: "#66bb6a", link: "https://example.com/airtime" },
-  { text: "Gift Card", color: "#42a5f5", link: "https://example.com/gift" }
+  { img:"images/iphone.jpg", link:"https://example.com/iphone" },
+  { img:"images/airtime.jpg", link:"https://example.com/airtime" },
+  { img:"images/giftcard.jpg", link:"https://example.com/giftcard" },
+  { img:"images/cash.jpg", link:"https://example.com/cash" }
 ];
 
-const center = 160;
-const radius = 150;
-const slice = (2 * Math.PI) / prizes.length;
-let rotation = 0;
-let spinning = false;
+const images = prizes.map(p=>{
+  const i=new Image();
+  i.src=p.img;
+  return i;
+});
 
-function drawWheel() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+const slice = 2*Math.PI/prizes.length;
+let angle=0;
+let spinning=false;
 
-  prizes.forEach((prize, i) => {
-    const start = rotation + i * slice;
-    const end = start + slice;
-
+function draw(){
+  ctx.clearRect(0,0,400,400);
+  for(let i=0;i<prizes.length;i++){
     ctx.beginPath();
-    ctx.moveTo(center, center);
-    ctx.arc(center, center, radius, start, end);
-    ctx.fillStyle = prize.color;
+    ctx.moveTo(200,200);
+    ctx.arc(200,200,190,angle+i*slice,angle+(i+1)*slice);
+    ctx.fillStyle=["#f1c40f","#2ecc71","#3498db","#e67e22"][i];
     ctx.fill();
-    ctx.stroke();
 
     ctx.save();
-    ctx.translate(center, center);
-    ctx.rotate(start + slice / 2);
-    ctx.textAlign = "right";
-    ctx.fillStyle = "#000";
-    ctx.font = "16px Arial";
-    ctx.fillText(prize.text, radius - 10, 5);
+    ctx.translate(200,200);
+    ctx.rotate(angle+i*slice+slice/2);
+    ctx.drawImage(images[i],90,-30,60,60);
     ctx.restore();
-  });
-}
-
-drawWheel();
-
-function spin() {
-  if (spinning) return;
-  spinning = true;
-
-  const spinAngle = Math.random() * 2000 + 2000;
-  const start = performance.now();
-
-  function animate(time) {
-    const progress = Math.min((time - start) / 3000, 1);
-    rotation += (spinAngle * (1 - progress)) * 0.002;
-    drawWheel();
-
-    if (progress < 1) {
-      requestAnimationFrame(animate);
-    } else {
-      spinning = false;
-
-      const index =
-        Math.floor(
-          (prizes.length - (rotation % (2 * Math.PI)) / slice)
-        ) % prizes.length;
-
-      window.location.href = prizes[index].link;
-    }
   }
-
-  requestAnimationFrame(animate);
 }
+
+function spin(){
+  if(spinning) return;
+  spinning=true;
+
+  let speed=Math.random()*0.4+0.5;
+  const stopAt=Math.random()*2*Math.PI;
+
+  const anim=setInterval(()=>{
+    angle+=speed;
+    speed*=0.97;
+    draw();
+
+    if(speed<0.01){
+      clearInterval(anim);
+      spinning=false;
+
+      const index=Math.floor(
+        (2*Math.PI-(angle%(2*Math.PI)))/slice
+      )%prizes.length;
+
+      window.location.href=prizes[index].link;
+    }
+  },20);
+}
+
+draw();
+document.getElementById("spinBtn").onclick=spin;
 </script>
 
 </body>
