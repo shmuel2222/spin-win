@@ -1,22 +1,28 @@
-const wheel = document.getElementById("wheel");
-const spinBtn = document.getElementById("spinBtn");
+document.addEventListener("DOMContentLoaded", function () {
 
-// ✨ غير اللينك هنا
-const REDIRECT_URL = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
+  const wheel = document.getElementById("wheel");
+  const spinBtn = document.getElementById("spinBtn");
 
-let spinning = false;
+  if (!wheel || !spinBtn) {
+    alert("العجلة أو الزرار مش متوصلين");
+    return;
+  }
 
-spinBtn.addEventListener("click", () => {
-  if (spinning) return;
-  spinning = true;
+  let spinning = false;
+  const REDIRECT_URL = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11"; // غيره براحتك
 
-  const spins = Math.floor(Math.random() * 3) + 4;
-  const degrees = spins * 360 + Math.floor(Math.random() * 360);
+  spinBtn.addEventListener("click", () => {
+    if (spinning) return;
+    spinning = true;
 
-  wheel.style.transition = "transform 4s ease-out";
-  wheel.style.transform = rotate(${degrees}deg);
+    const rotateDeg = 360 * 5 + Math.floor(Math.random() * 360);
 
-  setTimeout(() => {
-    window.location.href = REDIRECT_URL;
-  }, 4200);
+    wheel.style.transition = "transform 4s ease-out";
+    wheel.style.transform = rotate(${rotateDeg}deg);
+
+    setTimeout(() => {
+      window.location.href = REDIRECT_URL;
+    }, 4200);
+  });
+
 });
