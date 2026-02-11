@@ -1,19 +1,21 @@
-const wheel = document.getElementById("wheel");
+const wheel = document.querySelector(".wheel");
 const spinBtn = document.getElementById("spinBtn");
 
-let rotation = 0;
-let spinning = false;
+// اللينك اللي هيتحول عليه بعد اللفة
+const redirectLink = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11"; // ← غيره باللينك بتاعك
 
-spinBtn.addEventListener("click", function () {
-  if (spinning) return;
-  spinning = true;
+let isSpinning = false;
 
-  const extraRotation = Math.floor(Math.random() * 360);
-  rotation += 1440 + extraRotation;
+spinBtn.addEventListener("click", () => {
+  if (isSpinning) return;
+  isSpinning = true;
 
-  wheel.style.transform = "rotate(" + rotation + "deg)";
+  // رقم عشوائي للدوران
+  const spins = Math.floor(Math.random() * 360) + 1440; // 4 لفات على الأقل
+  wheel.style.transform = rotate(${spins}deg);
 
-  setTimeout(function () {
-    spinning = false;
-  }, 4200);
+  // بعد ما اللفة تخلص
+  setTimeout(() => {
+    window.location.href = redirectLink;
+  }, 4200); // لازم نفس مدة الـ CSS
 });
