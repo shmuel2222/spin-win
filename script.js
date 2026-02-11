@@ -1,20 +1,17 @@
 const wheel = document.getElementById("wheel");
 const btn = document.getElementById("spinBtn");
 
-let currentRotation = 0;
+let spinning = false;
 
 btn.onclick = () => {
-  btn.disabled = true;
+  if (spinning) return;
+  spinning = true;
 
-  const extraRotation = 360 * 5; // عدد لفات
-  const randomAngle = Math.floor(Math.random() * 360);
-  const totalRotation = currentRotation + extraRotation + randomAngle;
-
-  wheel.style.transform = rotate(${totalRotation}deg);
-  currentRotation = totalRotation;
+  const randomDeg = Math.floor(Math.random() * 360) + 1440;
+  wheel.style.transform = rotate(${randomDeg}deg);
 
   setTimeout(() => {
-    // لينك التحويل (غيره براحتك)
-    window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
-  }, 4200);
+    // مثال تحويل بعد اللف
+    window.location.href = "https://example.com";
+  }, 4000);
 };
