@@ -1,47 +1,88 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #6a11cb, #ff0844);
-  color: white;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #7b1fa2, #e91e63);
+  color: #fff;
   text-align: center;
+  padding: 20px;
 }
 
-.container {
-  padding: 60px 20px;
+h1 {
+  margin-top: 20px;
+  font-size: 32px;
 }
 
-button {
-  background: #ff9800;
-  border: none;
-  padding: 15px 40px;
+.subtitle {
   font-size: 18px;
-  border-radius: 30px;
+  margin-bottom: 20px;
+}
+
+.wheel-wrapper {
+  position: relative;
+  display: inline-block;
+  margin: 20px auto;
+}
+
+canvas {
+  width: 420px;
+  max-width: 90vw;
+  height: auto;
+  border-radius: 50%;
+  border: 8px solid #fff;
+  background: #fff;
+}
+
+.pointer {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 24px solid white;
+  z-index: 10;
+}
+
+.spin-btn {
+  margin-top: 20px;
+  background: #ffc107;
+  border: none;
+  padding: 16px 36px;
+  font-size: 20px;
+  border-radius: 40px;
   cursor: pointer;
-  color: white;
+  font-weight: bold;
 }
 
-button:hover {
-  background: #ffa726;
+.note {
+  font-size: 14px;
+  margin-top: 10px;
+  opacity: 0.9;
 }
 
-/* تكبير الصفحة على الموبايل */
+/* 📱 تكبير مخصوص للموبايل */
 @media (max-width: 768px) {
-
   body {
     zoom: 1.15;
-  }
-
-  canvas {
-    width: 320px !important;
-    height: 320px !important;
   }
 
   h1 {
     font-size: 26px;
   }
 
-  p {
+  .subtitle {
     font-size: 16px;
+  }
+
+  canvas {
+    width: 320px;
   }
 
   .spin-btn {
