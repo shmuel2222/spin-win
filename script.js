@@ -12,6 +12,6 @@ btn.onclick = () => {
 
   setTimeout(() => {
     // مثال تحويل بعد اللف
-    window.location.href = "https://example.com";
+    window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
   }, 4000);
 };
