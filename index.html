@@ -3,41 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spin & Win</title>
+  <title>ZA Spin & Win</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <h1>ZA Spin & Win Big Prizes!</h1>
-  <p class="subtitle">Your chance to win today 🎉</p>
+  <div class="container">
 
-  <div class="wheel-container">
+    <h1>ZA Spin & Win Big Prizes!</h1>
+    <p class="subtitle">Your chance to win today 🎉</p>
+
+    <!-- Pointer -->
     <div class="pointer"></div>
 
-    <div class="wheel" id="wheel">
+    <!-- WHEEL -->
+    <div id="wheel" class="wheel">
+
       <div class="slice blue">
-        <img src="images/giftcard.png" />
+        <img src="images/giftcard.png" alt="Gift Card">
         <span>Gift Card</span>
       </div>
+
       <div class="slice green">
-        <img src="images/airtime.png" />
+        <img src="images/airtime.png" alt="Airtime">
         <span>Airtime</span>
       </div>
-      <div class="slice orange">
-        <img src="images/cash.png" />
-        <span>Cash</span>
-      </div>
+
       <div class="slice yellow">
-        <img src="images/iphone.png" />
+        <img src="images/iphone.png" alt="iPhone">
         <span>iPhone</span>
       </div>
+
+      <div class="slice orange">
+        <img src="images/cash.png" alt="Cash">
+        <span>Cash</span>
+      </div>
+
     </div>
+
+    <!-- BUTTON -->
+    <button id="spinBtn" class="spin-btn">SPIN NOW</button>
+
+    <p class="note">* Promotional game • No purchase required</p>
+
   </div>
 
-  <button id="spinBtn">SPIN NOW</button>
-
-  <p class="note">* Promotional game • No purchase required</p>
-
+  <!-- JS -->
   <script src="script.js"></script>
 </body>
 </html>
