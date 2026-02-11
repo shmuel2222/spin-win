@@ -1,22 +1,15 @@
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
-
 const spinBtn = document.getElementById("spinBtn");
 
-const prizes = [
-  { text: "Gift Card", img: "images/giftcard.png" },
-  { text: "Airtime", img: "images/airtime.png" },
-  { text: "Cash", img: "images/cash.png" },
-  { text: "iPhone", img: "images/iphone.png" }
-];
-
+const prizes = ["Gift Card", "Airtime", "Cash", "iPhone"];
 const colors = ["#3498db", "#2ecc71", "#f1c40f", "#e67e22"];
 
 let angle = 0;
 let spinning = false;
 
 function drawWheel() {
-  const arc = Math.PI / 2;
+  const arc = (2 * Math.PI) / prizes.length;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < prizes.length; i++) {
@@ -27,16 +20,14 @@ function drawWheel() {
     ctx.fill();
     ctx.closePath();
 
-    const img = new Image();
-    img.src = prizes[i].img;
-
-    img.onload = function () {
-      ctx.save();
-      ctx.translate(200, 200);
-      ctx.rotate(arc * i + arc / 2);
-      ctx.drawImage(img, 60, -40, 80, 80);
-      ctx.restore();
-    };
+    ctx.save();
+    ctx.translate(200, 200);
+    ctx.rotate(arc * i + arc / 2);
+    ctx.fillStyle = "#000";
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(prizes[i], 120, 0);
+    ctx.restore();
   }
 }
 
@@ -46,7 +37,6 @@ spinBtn.addEventListener("click", function () {
   if (spinning) return;
 
   spinning = true;
-
   const randomDeg = Math.floor(3600 + Math.random() * 360);
   angle += randomDeg;
 
@@ -56,7 +46,7 @@ spinBtn.addEventListener("click", function () {
   setTimeout(() => {
     spinning = false;
 
-    // 👇 التحويل على لينك
+    // 🔗 التحويل
     window.location.href = "https://google.com";
   }, 4000);
 });
