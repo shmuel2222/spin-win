@@ -1,53 +1,25 @@
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
-const spinBtn = document.getElementById("spinBtn");
+const wheel = document.getElementById("wheel");
+const spinBtn = document.getElementById("spin");
 
-const prizes = ["Gift Card", "Airtime", "Cash", "iPhone"];
-const colors = ["#3498db", "#2ecc71", "#f1c40f", "#e67e22"];
+let isSpinning = false;
 
-let angle = 0;
-let spinning = false;
+spinBtn.addEventListener("click", () => {
 
-function drawWheel() {
-  const arc = (2 * Math.PI) / prizes.length;
+    if (isSpinning) return;
 
-  for (let i = 0; i < prizes.length; i++) {
-    ctx.beginPath();
-    ctx.fillStyle = colors[i];
-    ctx.moveTo(200, 200);
-    ctx.arc(200, 200, 200, arc * i, arc * (i + 1));
-    ctx.fill();
-    ctx.closePath();
+    isSpinning = true;
 
-    ctx.save();
-    ctx.translate(200, 200);
-    ctx.rotate(arc * i + arc / 2);
-    ctx.fillStyle = "black";
-    ctx.font = "20px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(prizes[i], 120, 0);
-    ctx.restore();
-  }
-}
+    const randomDegree = Math.floor(Math.random() * 360) + 1440; 
+    // 1440 = 4 لفات كاملة
 
-drawWheel();
+    wheel.style.transition = "transform 4s ease-out";
+    wheel.style.transform = "rotate(" + randomDegree + "deg)";
 
-spinBtn.addEventListener("click", function () {
-  if (spinning) return;
+    setTimeout(() => {
 
-  spinning = true;
+        // هنا تحط لينك التحويل
+        window.location.href = "https://google.com";
 
-  const randomDeg = 3600 + Math.floor(Math.random() * 360);
-  angle += randomDeg;
+    }, 4000);
 
-  canvas.style.transition = "transform 4s ease-out";
-  canvas.style.transform = rotate(${angle}deg);
-
-  setTimeout(() => {
-    spinning = false;
-
-    // تحويل بعد اللف
-    window.location.href = "https://google.com";
-
-  }, 4000);
 });
