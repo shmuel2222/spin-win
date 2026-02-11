@@ -1,159 +1,242 @@
-body{
+Mohammed Shmuel, [2/11/2026 12:20 PM]
+/* ===============================
+   ZA Spin & Win - Professional CSS
+   =============================== */
+
+*{
     margin:0;
-    text-align:center;
-    font-family:Arial, Helvetica, sans-serif;
-    background:linear-gradient(135deg,#8e2de2,#ff416c);
-    color:white;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* العنوان */
+body{
+    font-family:'Segoe UI', Tahoma, sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:linear-gradient(135deg,#6a11cb,#ff4e9b);
+    color:white;
+    overflow-x:hidden;
+}
+
+/* ===============================
+   Title Section
+   =============================== */
+
 h1{
-    margin-top:30px;
-    font-size:38px;
+    margin-top:40px;
+    font-size:42px;
+    font-weight:800;
     letter-spacing:1px;
+    text-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 p{
+    margin-top:10px;
     font-size:18px;
-    opacity:0.9;
+    opacity:.9;
 }
 
-/* الحاوية */
+/* ===============================
+   Wheel Container
+   =============================== */
+
 .wheel-container{
     position:relative;
     width:420px;
     height:420px;
-    margin:40px auto;
+    margin:50px auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* ⭐ إطار ذهبي متحرك */
+/* Glowing Border Effect */
+
 .wheel-container::before{
     content:"";
     position:absolute;
     inset:-15px;
     border-radius:50%;
     background:conic-gradient(
-        gold,
-        orange,
-        gold,
-        yellow,
-        gold
+        #ff00cc,
+        #3333ff,
+        #00ffcc,
+        #ffcc00,
+        #ff00cc
     );
-    animation:spinBorder 6s linear infinite;
-    z-index:0;
-    filter:blur(4px);
+    animation:rotateGlow 6s linear infinite;
+    z-index:-2;
+    filter:blur(25px);
+    opacity:.6;
 }
 
-/* العجلة */
+/* Outer Shadow Ring */
+
+.wheel-container::after{
+    content:"";
+    position:absolute;
+    inset:-5px;
+    border-radius:50%;
+    background:radial-gradient(circle at center,
+        rgba(255,255,255,0.4),
+        rgba(0,0,0,0.6));
+    z-index:-1;
+}
+
+/* ===============================
+   Wheel Styling
+   =============================== */
+
 #wheel{
     width:100%;
     height:100%;
     border-radius:50%;
-    border:15px solid #fff;
-
+    border:15px solid white;
     background:
-        radial-gradient(circle at center, rgba(0,0,0,0.15), transparent 70%),
-        conic-gradient(
-            #3498db 0deg 90deg,
-            #2ecc71 90deg 180deg,
-            #f1c40f 180deg 270deg,
-            #e67e22 270deg 360deg
-        );
-
+    conic-gradient(
+        #3498db 0deg 90deg,
+        #2ecc71 90deg 180deg,
+        #f1c40f 180deg 270deg,
+        #e67e22 270deg 360deg
+    );
     box-shadow:
-        inset 0 0 60px rgba(0,0,0,0.5),
-        inset 0 0 25px rgba(255,255,255,0.4),
-        0 25px 60px rgba(0,0,0,0.6);
-
-    transition: transform 4s cubic-bezier(0.17,0.67,0.12,0.99);
+        inset 0 0 40px rgba(0,0,0,0.5),
+        inset 0 0 20px rgba(255,255,255,0.3),
+        0 30px 60px rgba(0,0,0,0.6);
+    transition:transform 4s cubic-bezier(.17,.67,.83,.67);
 }
 
-/* لمعة داخلية */
-#wheel::after{
-    content:"";
+/* ===============================
+   Text Inside Wheel
+   =============================== */
+
+.label{
     position:absolute;
-    top:10%;
-    left:10%;
-    width:80%;
-    height:80%;
-    border-radius:50%;
-    background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 60%);
-    pointer-events:none;
+    left:50%;
+    top:50%;
+    transform-origin:0 0;
+    font-weight:bold;
+    font-size:18px;
+    color:white;
+    text-shadow:0 2px 8px rgba(0,0,0,0.7);
+    letter-spacing:.5px;
 }
 
-/* المؤشر */
+/* ===============================
+   Pointer Arrow
+   =============================== */
+
 .pointer{
     position:absolute;
-    top:-35px;
+    top:-15px;
     left:50%;
     transform:translateX(-50%);
     width:0;
     height:0;
-    border-left:22px solid transparent;
-    border-right:22px solid transparent;
-    border-bottom:38px solid white;
-    filter:drop-shadow(0 5px 12px rgba(0,0,0,0.6));
-    z-index:3;
+    border-left:18px solid transparent;
+    border-right:18px solid transparent;
+    border-bottom:30px solid white;
+    filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));
+    z-index:10;
 }
 
-/* الزرار */
+/* ===============================
+   Spin Button
+   =============================== */
+
 button{
-    padding:15px 45px;
-    font-size:18px;
-    background:linear-gradient(45deg,#f1c40f,#ffd60a);
+    padding:16px 50px;
+    font-size:20px;
     border:none;
-    border-radius:30px;
+    border-radius:50px;
+    background:linear-gradient(45deg,#ffe600,#ffb300);
     cursor:pointer;
-    font-weight:bold;
-    margin-bottom:30px;
-    box-shadow:0 10px 20px rgba(0,0,0,0.4);
-    transition:0.3s;
+    margin-top:30px;
+    font-weight:800;
+    letter-spacing:1px;
+    box-shadow:
+        0 15px 30px rgba(0,0,0,0.4);
+    transition:all .3s ease;
 }
 
 button:hover{
-    transform:scale(1.08);
-    box-shadow:0 15px 30px rgba(0,0,0,0.6);
+    transform:translateY(-3px) scale(1.05);
+    box-shadow:
+        0 25px 40px rgba(0,0,0,0.6);
 }
 
-/* حركة الإطار */
-@keyframes spinBorder{
+button:active{
+    transform:scale(.95);
+}
+
+/* ===============================
+   Footer Text
+   =============================== */
+
+small{
+    margin-top:20px;
+    opacity:.7;
+    font-size:14px;
+}
+
+/* ===============================
+   Animations
+   =============================== */
+
+@keyframes rotateGlow{
     from{ transform:rotate(0deg); }
     to{ transform:rotate(360deg); }
 }
-@keyframes spinBorder{
-    from{ transform:rotate(0deg); }
-    to{ transform:rotate(360deg); }
+
+/* ===============================
+   Responsive Design
+   =============================== */
+
+@media(max-width:500px){
+
+    .wheel-container{
+        width:320px;
+        height:320px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    button{
+        font-size:16px;
+        padding:14px 35px;
+    }
+
+    .label{
+        font-size:14px;
+    }
 }
 
-/* ===== الشكل الاحترافي للعجلة ===== */
+Mohammed Shmuel, [2/11/2026 12:20 PM]
+/* ===============================
+   Extra Premium Effects
+   =============================== */
 
-.wheel-container{
-    position:relative;
-    width:420px;
-    height:420px;
-    margin:40px auto;
-    filter: drop-shadow(0 25px 60px rgba(0,0,0,0.6));
-}
-
-.wheel-container::before{
+#wheel::before{
     content:"";
     position:absolute;
-    inset:-12px;
+    inset:20px;
     border-radius:50%;
-    background:conic-gradient(
-        from 0deg,
-        #ffffff,
-        #f1c40f,
-        #ffffff,
-        #f1c40f,
-        #ffffff
-    );
-    animation:spinBorder 6s linear infinite;
-    z-index:1;
+    background:radial-gradient(circle at center,
+        rgba(255,255,255,.2),
+        transparent 70%);
+    pointer-events:none;
 }
 
-.wheel{
-    position:relative;
-    z-index:2;
+#wheel::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    box-shadow:
+        inset 0 0 60px rgba(0,0,0,.6);
+    pointer-events:none;
 }
-
