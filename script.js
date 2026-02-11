@@ -42,18 +42,30 @@ function drawWheel() {
 
 drawWheel();
 
-spinBtn.onclick = function () {
-    if (spinning) return;
+function drawWheel() {
+    const arcSize = (2 * Math.PI) / prizes.length;
 
-    spinning = true;
+    for (let i = 0; i < prizes.length; i++) {
+        const angle = i * arcSize;
 
-    const spinAngle = Math.floor(Math.random() * 360) + 720;
-    rotation += spinAngle;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, angle, angle + arcSize);
+        ctx.fillStyle = colors[i];
+        ctx.fill();
+        ctx.closePath();
 
-    canvas.style.transition = "transform 4s ease-out";
-    canvas.style.transform = "rotate(" + rotation + "deg)";
+        // كتابة مستقيمة في منتصف كل جزء
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(angle + arcSize / 2);
 
-    setTimeout(() => {
-        spinning = false;
-    }, 4000);
-};
+        ctx.textAlign = "center";
+        ctx.fillStyle = "black";
+        ctx.font = "bold 20px Arial";
+
+        ctx.fillText(prizes[i], 0, -radius / 1.5);
+
+        ctx.restore();
+    }
+}
