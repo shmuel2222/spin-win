@@ -1,51 +1,45 @@
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 body {
   margin: 0;
-  min-height: 100vh;
+  font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #7b2ff7, #f107a3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: #fff;
-}
-
-.container {
   text-align: center;
-  width: 100%;
-  max-width: 420px;
 }
 
 h1 {
-  margin-bottom: 5px;
+  margin-top: 30px;
 }
 
-.subtitle {
+.sub {
   margin-bottom: 20px;
 }
 
+.wheel-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 20px auto;
+}
+
 .pointer {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 25px solid white;
-  margin: 0 auto -10px;
   z-index: 10;
-  position: relative;
 }
 
 .wheel {
-  width: 320px;
-  height: 320px;
-  margin: 0 auto 20px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   border: 10px solid white;
   position: relative;
-  overflow: hidden;
   transition: transform 4s ease-out;
 }
 
@@ -55,26 +49,41 @@ h1 {
   height: 50%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  transform-origin: 100% 100%;
 }
 
 .slice img {
   width: 40px;
-  margin-bottom: 5px;
 }
 
 .slice span {
+  margin-top: 5px;
   font-size: 14px;
   color: #000;
   font-weight: bold;
 }
 
-/* positions */
-.blue { background: #3498db; top: 0; left: 0; }
-.green { background: #2ecc71; top: 0; right: 0; }
-.yellow { background: #f1c40f; bottom: 0; right: 0; }
-.orange { background: #e67e22; bottom: 0; left: 0; }
+.blue {
+  background: #3498db;
+  transform: rotate(0deg) skewY(-45deg);
+}
+
+.green {
+  background: #2ecc71;
+  transform: rotate(90deg) skewY(-45deg);
+}
+
+.orange {
+  background: #f39c12;
+  transform: rotate(180deg) skewY(-45deg);
+}
+
+.yellow {
+  background: #f1c40f;
+  transform: rotate(270deg) skewY(-45deg);
+}
 
 #spinBtn {
   background: #f1c40f;
@@ -82,12 +91,11 @@ h1 {
   padding: 15px 40px;
   border-radius: 30px;
   font-size: 18px;
-  cursor: pointer;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .note {
-  margin-top: 10px;
   font-size: 12px;
-  opacity: 0.8;
+  margin-top: 10px;
 }
