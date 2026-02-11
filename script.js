@@ -1,13 +1,13 @@
-const canvas = document.getElementById("wheelCanvas");
+const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 const spinBtn = document.getElementById("spinBtn");
 
-const prizes = ["Gift Card", "Airtime", "iPhone", "Cash"];
-const colors = ["#3498db", "#2ecc71", "#f1c40f", "#e67e22"];
+const prizes = ["Gift Card", "Airtime", "Cash", "iPhone"];
+const colors = ["#2196f3", "#4caf50", "#ff9800", "#ffeb3b"];
 
-const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
-const radius = 200;
+const radius = canvas.width / 2;
+const centerX = radius;
+const centerY = radius;
 
 let rotation = 0;
 let spinning = false;
@@ -25,47 +25,50 @@ function drawWheel() {
         ctx.fill();
         ctx.closePath();
 
-        // كتابة مستقيمة في منتصف كل جزء
         ctx.save();
         ctx.translate(centerX, centerY);
         ctx.rotate(angle + arcSize / 2);
-
         ctx.textAlign = "center";
         ctx.fillStyle = "black";
-        ctx.font = "bold 20px Arial";
-
+        ctx.font = "bold 18px Arial";
         ctx.fillText(prizes[i], 0, -radius / 1.5);
-
         ctx.restore();
     }
 }
 
 drawWheel();
 
-function drawWheel() {
-    const arcSize = (2 * Math.PI) / prizes.length;
+spinBtn.onclick = function () {
+    if (spinning) return;
 
-    for (let i = 0; i < prizes.length; i++) {
-        const angle = i * arcSize;
+    spinning = true;
 
-        ctx.beginPath();
-        ctx.moveTo(centerX, centerY);
-        ctx.arc(centerX, centerY, radius, angle, angle + arcSize);
-        ctx.fillStyle = colors[i];
-        ctx.fill();
-        ctx.closePath();
+    const spinAngle = Math.floor(Math.random() * 360) + 720;
+    rotation += spinAngle;
 
-        // كتابة مستقيمة في منتصف كل جزء
-        ctx.save();
-        ctx.translate(centerX, centerY);
-        ctx.rotate(angle + arcSize / 2);
+    canvas.style.transition = "transform 4s ease-out";
+    canvas.style.transform = "rotate(" + rotation + "deg)";
 
-        ctx.textAlign = "center";
-        ctx.fillStyle = "black";
-        ctx.font = "bold 20px Arial";
+    setTimeout(() => {
+        spinning = false;
 
-        ctx.fillText(prizes[i], 0, -radius / 1.5);
+        const actualDeg = rotation % 360;
+        const segment = Math.floor((360 - actualDeg) / (360 / prizes.length)) % prizes.length;
+        const winner = prizes[segment];
 
-        ctx.restore();
-    }
-}
+        // تحويل حسب الجائزة
+        if (winner === "Gift Card") {
+            window.location.href = "https://example.com/gift";
+        }
+        else if (winner === "Airtime") {
+            window.location.href = "https://example.com/airtime";
+        }
+        else if (winner === "Cash") {
+            window.location.href = "https://example.com/cash";
+        }
+        else if (winner === "iPhone") {
+            window.location.href = "https://example.com/iphone";
+        }
+
+    }, 4000);
+};
