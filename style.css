@@ -1,42 +1,42 @@
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 body {
   margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #7b2ff7, #f107a3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
   text-align: center;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #8e44ad, #d63384);
+  color: white;
 }
 
 h1 {
-  margin-bottom: 5px;
+  margin-top: 30px;
 }
 
-.subtitle {
-  margin-bottom: 20px;
-}
-
-.wheel-container {
+.wheel-wrapper {
   position: relative;
-  width: 320px;
-  height: 320px;
+  width: 300px;
+  height: 300px;
+  margin: 30px auto;
+}
+
+#pointer {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 18px solid white;
+  z-index: 5;
 }
 
 #wheel {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 8px solid #fff;
+  border: 8px solid white;
   position: relative;
-  transition: transform 4s cubic-bezier(.17,.67,.12,.99);
-  z-index: 1;
+  transition: transform 4s ease-out;
 }
 
 .slice {
@@ -57,55 +57,44 @@ h1 {
 .slice span {
   margin-top: 6px;
   font-size: 14px;
-  color: #000;
-  font-weight: bold;
+  color: black;
 }
 
-.s1 {
+/* الألوان + التوزيع */
+.blue {
   background: #3498db;
-  transform: rotate(0deg);
-}
-.s2 {
-  background: #2ecc71;
-  transform: rotate(90deg);
-}
-.s3 {
-  background: #f39c12;
-  transform: rotate(180deg);
-}
-.s4 {
-  background: #f1c40f;
-  transform: rotate(270deg);
+  top: 0;
+  left: 0;
 }
 
-.pointer {
-  position: absolute;
-  top: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-bottom: 20px solid white;
+.green {
+  background: #2ecc71;
+  top: 0;
+  right: 0;
+}
+
+.orange {
+  background: #f39c12;
+  bottom: 0;
+  right: 0;
+}
+
+.yellow {
+  background: #f1c40f;
+  bottom: 0;
+  left: 0;
 }
 
 button {
-  margin-top: 20px;
-  padding: 14px 36px;
+  padding: 14px 40px;
   font-size: 18px;
-  border: none;
   border-radius: 30px;
+  border: none;
   background: #f1c40f;
   cursor: pointer;
 }
 
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
 .note {
-  margin-top: 10px;
-  font-size: 13px;
+  margin-top: 15px;
+  font-size: 14px;
 }
