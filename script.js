@@ -1,25 +1,25 @@
-const wheel = document.getElementById("wheel");
-const spinBtn = document.getElementById("spin");
+window.onload = function () {
 
-let isSpinning = false;
+    const wheel = document.getElementById("wheel");
+    const spinBtn = document.getElementById("spin");
 
-spinBtn.addEventListener("click", () => {
+    let isSpinning = false;
 
-    if (isSpinning) return;
+    spinBtn.addEventListener("click", function () {
 
-    isSpinning = true;
+        if (isSpinning) return;
 
-    const randomDegree = Math.floor(Math.random() * 360) + 1440; 
-    // 1440 = 4 لفات كاملة
+        isSpinning = true;
 
-    wheel.style.transition = "transform 4s ease-out";
-    wheel.style.transform = "rotate(" + randomDegree + "deg)";
+        const randomDegree = Math.floor(Math.random() * 360) + 1440;
 
-    setTimeout(() => {
+        wheel.style.transition = "transform 4s ease-out";
+        wheel.style.transform = "rotate(" + randomDegree + "deg)";
 
-        // هنا تحط لينك التحويل
-        window.location.href = "https://google.com";
+        setTimeout(function () {
+            window.location.href = "https://google.com";
+        }, 4000);
 
-    }, 4000);
+    });
 
-});
+};
