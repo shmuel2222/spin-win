@@ -1,20 +1,19 @@
 const wheel = document.getElementById("wheel");
-const btn = document.getElementById("spinBtn");
+const spinBtn = document.getElementById("spinBtn");
 
-let currentRotation = 0;
+let rotation = 0;
 let spinning = false;
 
-btn.addEventListener("click", () => {
+spinBtn.addEventListener("click", function () {
   if (spinning) return;
   spinning = true;
 
-  const randomDeg = Math.floor(Math.random() * 360);
-  currentRotation += 1440 + randomDeg;
+  const extraRotation = Math.floor(Math.random() * 360);
+  rotation += 1440 + extraRotation;
 
-  wheel.style.transform = rotate(${currentRotation}deg);
+  wheel.style.transform = "rotate(" + rotation + "deg)";
 
-  setTimeout(() => {
+  setTimeout(function () {
     spinning = false;
-    alert("Finished spinning 🎉");
   }, 4200);
 });
