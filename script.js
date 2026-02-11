@@ -1,87 +1,22 @@
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
+const wheel = document.getElementById("wheel");
+const spinBtn = document.getElementById("spinBtn");
 
-const prizes = [
-  { text: "Gift Card", color: "#3498db", img: "images/giftcard.png" },
-  { text: "Airtime",   color: "#2ecc71", img: "images/airtime.png" },
-  { text: "iPhone",    color: "#f1c40f", img: "images/iphone.png" },
-  { text: "Cash",      color: "#e67e22", img: "images/cash.png" }
-];
+// ✨ غير اللينك هنا
+const REDIRECT_URL = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
 
-const total = prizes.length;
-const angle = (2 * Math.PI) / total;
-let rotation = 0;
 let spinning = false;
 
-const images = {};
-let loaded = 0;
-
-// تحميل الصور
-prizes.forEach(p => {
-  const img = new Image();
-  img.src = p.img;
-  img.onload = () => {
-    loaded++;
-    if (loaded === prizes.length) drawWheel();
-  };
-  images[p.text] = img;
-});
-
-function drawWheel() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  prizes.forEach((p, i) => {
-    const start = rotation + i * angle;
-    const end = start + angle;
-
-    // الجزء
-    ctx.beginPath();
-    ctx.moveTo(250, 250);
-    ctx.arc(250, 250, 240, start, end);
-    ctx.fillStyle = p.color;
-    ctx.fill();
-
-    // الصورة
-    ctx.save();
-    ctx.translate(250, 250);
-    ctx.rotate(start + angle / 2);
-    ctx.drawImage(images[p.text], 120, -25, 50, 50);
-    ctx.restore();
-
-    // النص
-    ctx.save();
-    ctx.translate(250, 250);
-    ctx.rotate(start + angle / 2);
-    ctx.fillStyle = "#000";
-    ctx.font = "16px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(p.text, 120, 40);
-    ctx.restore();
-  });
-}
-
-document.getElementById("spinBtn").onclick = () => {
+spinBtn.addEventListener("click", () => {
   if (spinning) return;
   spinning = true;
 
-  const spins = Math.random() * 5 + 5;
-  const target = rotation + spins * 2 * Math.PI;
-  const start = rotation;
-  const duration = 4000;
-  const startTime = performance.now();
+  const spins = Math.floor(Math.random() * 3) + 4;
+  const degrees = spins * 360 + Math.floor(Math.random() * 360);
 
-  function animate(time) {
-    const progress = Math.min((time - startTime) / duration, 1);
-    const ease = 1 - Math.pow(1 - progress, 3);
-    rotation = start + (target - start) * ease;
-    drawWheel();
+  wheel.style.transition = "transform 4s ease-out";
+  wheel.style.transform = rotate(${degrees}deg);
 
-    if (progress < 1) {
-      requestAnimationFrame(animate);
-    } else {
-      spinning = false;
-    }
-  }
-
-  requestAnimationFrame(animate);
-};
+  setTimeout(() => {
+    window.location.href = REDIRECT_URL;
+  }, 4200);
+});
