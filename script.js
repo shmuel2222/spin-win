@@ -3,23 +3,26 @@ const btn = document.getElementById("spinBtn");
 
 let spinning = false;
 
-btn.onclick = () => {
+btn.addEventListener("click", function () {
+
   if (spinning) return;
   spinning = true;
 
-  const prizes = [
-    "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11",
-    "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11",
-    "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11",
-    "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11"
+  const links = [
+    "https://google.com",
+    "https://facebook.com",
+    "https://youtube.com",
+    "https://instagram.com"
   ];
 
-  const index = Math.floor(Math.random() * prizes.length);
-  const angle = 360 * 5 + index * 90;
+  const index = Math.floor(Math.random() * links.length);
 
-  wheel.style.transform = rotate(${angle}deg);
+  const rotateDeg = 360 * 5 + (index * 90);
 
-  setTimeout(() => {
-    window.location.href = prizes[index];
+  wheel.style.transform = "rotate(" + rotateDeg + "deg)";
+
+  setTimeout(function () {
+    window.location.href = links[index];
   }, 4000);
-};
+
+});
