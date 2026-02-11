@@ -1,21 +1,20 @@
-const wheel = document.querySelector(".wheel");
-const spinBtn = document.getElementById("spinBtn");
+const wheel = document.getElementById("wheel");
+const btn = document.getElementById("spinBtn");
 
-// اللينك اللي هيتحول عليه بعد اللفة
-const redirectLink = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11"; // ← غيره باللينك بتاعك
+let currentRotation = 0;
 
-let isSpinning = false;
+btn.onclick = () => {
+  btn.disabled = true;
 
-spinBtn.addEventListener("click", () => {
-  if (isSpinning) return;
-  isSpinning = true;
+  const extraRotation = 360 * 5; // عدد لفات
+  const randomAngle = Math.floor(Math.random() * 360);
+  const totalRotation = currentRotation + extraRotation + randomAngle;
 
-  // رقم عشوائي للدوران
-  const spins = Math.floor(Math.random() * 360) + 1440; // 4 لفات على الأقل
-  wheel.style.transform = rotate(${spins}deg);
+  wheel.style.transform = rotate(${totalRotation}deg);
+  currentRotation = totalRotation;
 
-  // بعد ما اللفة تخلص
   setTimeout(() => {
-    window.location.href = redirectLink;
-  }, 4200); // لازم نفس مدة الـ CSS
-});
+    // لينك التحويل (غيره براحتك)
+    window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
+  }, 4200);
+};
