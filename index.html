@@ -1,41 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>ZA Spin & Win</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<title>ZA Spin & Win</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>ZA Spin & Win Big Prizes!</h1>
-  <p>Your chance to win today 🎉</p>
+<h1>ZA Spin & Win Big Prizes!</h1>
+<p>Your chance to win today 🎉</p>
 
-  <div class="wheel-wrapper">
-    <div id="wheel">
-      <div class="slice blue">
-        <img src="images/giftcard.png">
-        <span>Gift Card</span>
-      </div>
-      <div class="slice green">
-        <img src="images/airtime.png">
-        <span>Airtime</span>
-      </div>
-      <div class="slice yellow">
-        <img src="images/iphone.png">
-        <span>iPhone</span>
-      </div>
-      <div class="slice orange">
-        <img src="images/cash.png">
-        <span>Cash</span>
-      </div>
-    </div>
-
+<div class="wheel-wrapper">
     <div class="pointer"></div>
-  </div>
+    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+</div>
 
-  <button id="spinBtn">SPIN NOW</button>
-  <p class="note">* Promotional game • No purchase required</p>
+<button id="spinBtn">SPIN NOW</button>
+<p class="note">* Promotional game • No purchase required</p>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
