@@ -128,7 +128,18 @@ function draw() {
     );
     ctx.rotate(mid);
     ctx.drawImage(images[i], -22, -22, 44, 44);
-    ctx.restore();
+
+// النص
+ctx.fillStyle = "#000";
+ctx.font = "bold 14px Arial";
+ctx.textAlign = "center";
+ctx.fillText(
+  ["Gift Card","Airtime","Cash","iPhone"][i],
+  0,
+  35
+);
+
+ctx.restore();
   });
 }
 
