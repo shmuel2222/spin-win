@@ -1,180 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>ZA Spin & Win</title>
-
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(135deg,#7b1fa2,#e91e63);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: Arial, sans-serif;
-  color: #fff;
-}
-
-h1 { margin-bottom: 5px; }
-p { margin-top: 0; }
-
-#wrapper {
-  position: relative;
-  width: 320px;
-  height: 320px;
-}
-
-#pointer {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 25px solid white;
-  z-index: 10;
-}
-
-canvas {
-  border-radius: 50%;
-  background: white;
-}
-
-button {
-  margin-top: 25px;
-  padding: 12px 35px;
-  font-size: 18px;
-  background: #ffc107;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-}
-
-small {
-  margin-top: 10px;
-  opacity: .8;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spin & Win</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h1>ZA Spin & Win Big Prizes!</h1>
-<p>Your chance to win today 🎉</p>
+  <h1>ZA Spin & Win Big Prizes!</h1>
+  <p class="subtitle">Your chance to win today 🎉</p>
 
-<div id="wrapper">
-  <div id="pointer"></div>
-  <canvas id="wheel" width="420" height="420"></canvas>
-</div>
+  <div class="wheel-container">
+    <div class="pointer"></div>
+    <canvas id="wheel" width="500" height="500"></canvas>
+  </div>
 
-<button onclick="spin()">SPIN NOW</button>
-<small>* Promotional game • No purchase required</small>
+  <button id="spinBtn">SPIN NOW</button>
 
-<script>
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
+  <p class="note">* Promotional game • No purchase required</p>
 
-const center = 160;
-const radius = 150;
-
-const prizes = [
-  { img: "images/iphone.png",  link: "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11" },
-  { img: "images/cash.png",    link: "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11" },
-  { img: "images/giftcard.png",link: "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11" },
-  { img: "images/airtime.png", link: "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11" }
-];
-
-const colors = ["#ffeb3b","#ff9800","#2196f3","#4caf50"];
-
-let angle = 0;
-let spinning = false;
-
-const images = [];
-let loaded = 0;
-
-prizes.forEach((p,i)=>{
-  const img = new Image();
-  img.src = p.img;
-  img.onload = () => {
-    loaded++;
-    if (loaded === prizes.length) draw();
-  };
-  images.push(img);
-});
-
-function draw() {
-  ctx.clearRect(0,0,320,320);
-  const slice = 2*Math.PI / prizes.length;
-
-  prizes.forEach((p,i)=>{
-    const start = angle + i*slice;
-    const end   = start + slice;
-
-    ctx.beginPath();
-    ctx.moveTo(center,center);
-    ctx.arc(center,center,radius,start,end);
-    ctx.fillStyle = colors[i];
-    ctx.fill();
-
-    const mid = start + slice/2;
-    ctx.save();
-    ctx.translate(
-      center + Math.cos(mid)*90,
-      center + Math.sin(mid)*90
-    );
-    ctx.rotate(mid);
-    ctx.drawImage(images[i], -22, -22, 44, 44);
-
-// النص
-ctx.fillStyle = "#000";
-ctx.font = "bold 14px Arial";
-ctx.textAlign = "center";
-ctx.fillText(
-  ["iPhone","Cash","Gift Card","Airtime"][i],
-  0,
-  35
-);
-
-ctx.restore();
-  });
-}
-
-function spin(){
-  if(spinning) return;
-  spinning = true;
-
-  const target = Math.random()*360 + 1440;
-  const start = performance.now();
-  const duration = 4000;
-
-  function animate(time){
-    const progress = Math.min((time-start)/duration,1);
-    angle = (target*progress)*Math.PI/180;
-    draw();
-
-    if(progress<1){
-      requestAnimationFrame(animate);
-    } else {
-      spinning=false;
-      finish();
-    }
-  }
-  requestAnimationFrame(animate);
-}
-
-function finish(){
-  const slice = 360/prizes.length;
-  const deg = (360 - (angle*180/Math.PI)%360) % 360;
-  const index = Math.floor(deg/slice);
-  setTimeout(()=>{
-    window.location.href = prizes[index].link;
-  },800);
-}
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
