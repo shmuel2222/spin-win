@@ -7,11 +7,19 @@ btn.onclick = () => {
   if (spinning) return;
   spinning = true;
 
-  const randomDeg = Math.floor(Math.random() * 360) + 1440;
-  wheel.style.transform = rotate(${randomDeg}deg);
+  const prizes = [
+    "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11",
+    "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11",
+    "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11",
+    "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11"
+  ];
+
+  const index = Math.floor(Math.random() * prizes.length);
+  const angle = 360 * 5 + index * 90;
+
+  wheel.style.transform = rotate(${angle}deg);
 
   setTimeout(() => {
-    // مثال تحويل بعد اللف
-    window.location.href = "https://mediahqx.bountyads.store/?utm_medium=b8017b6ba61df93050bd920ec2b7a89c4f7a148a&utm_campaign=shmuelolo11";
+    window.location.href = prizes[index];
   }, 4000);
 };
