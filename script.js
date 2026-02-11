@@ -25,13 +25,17 @@ function drawWheel() {
         ctx.fill();
         ctx.closePath();
 
+        // كتابة مستقيمة في منتصف كل جزء
         ctx.save();
         ctx.translate(centerX, centerY);
         ctx.rotate(angle + arcSize / 2);
-        ctx.textAlign = "right";
+
+        ctx.textAlign = "center";
         ctx.fillStyle = "black";
-        ctx.font = "bold 18px Arial";
-        ctx.fillText(prizes[i], radius - 20, 10);
+        ctx.font = "bold 20px Arial";
+
+        ctx.fillText(prizes[i], 0, -radius / 1.5);
+
         ctx.restore();
     }
 }
